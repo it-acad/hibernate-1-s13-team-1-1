@@ -8,7 +8,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Table(name = "users")
@@ -25,20 +24,30 @@ public class User  {
                     @org.hibernate.annotations.Parameter(name = "increment_size", value = "1")
             }
     )
-
     private long id;
 
-    @NotBlank(message = "The userName cannot be empty")
+    @NotBlank(message = "The userEmail cannot be empty")
     @Column(nullable = false, unique = true)
-
     private String email;
+
+    @NotBlank(message = "The userFirst_name cannot be empty")
+    @Column(nullable = false, unique = true)
     private String first_name;
+
+    @NotBlank(message = "The userLast_name cannot be empty")
+    @Column(nullable = false, unique = true)
     private String last_name;
+
+    @NotBlank(message = "The userPassword cannot be empty")
+    @Column(nullable = false, unique = true)
     private String password;
+
+    @NotBlank(message = "The userRole_id cannot be empty")
+    @Column(nullable = false, unique = true)
     private long role_id;
 
-    @OneToMany(mappedBy = "user")
-    private List<User> users;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private List<Role> roles;
 
     public User() {
     }
@@ -91,42 +100,23 @@ public class User  {
         this.role_id = role_id;
     }
 
-    public List<User> getUsers() {
-        return users;
+    public List<Role> getRoles() {
+        return roles;
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return id == user.id &&
-                role_id == user.role_id &&
-                email.equals(user.email) &&
-                first_name.equals(user.first_name) &&
-                last_name.equals(user.last_name) &&
-                password.equals(user.password) &&
-                users.equals(user.users);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, email, first_name, last_name, password, role_id, users);
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 
     @Override
     public String toString() {
-        return "Role {" +
+        return "User {" +
                 "id = " + id +
                 ", email = '" + email +
                 ", first_name = '" + first_name +
                 ", last_name = '" + last_name +
                 ", password = '" + password +
-                ", role_id = '" + role_id + '\'' +
+                ", role_id = '" + role_id  +'\'' +
                 "} ";
     }
 }
