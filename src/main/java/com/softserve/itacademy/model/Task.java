@@ -6,7 +6,6 @@ import org.hibernate.annotations.Parameter;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Table(name = "tasks")
@@ -28,16 +27,28 @@ public class Task {
 
     @NotBlank(message = "The taskName cannot be empty")
     @Column(nullable = false, unique = true)
-
     private String name;
+
+    @NotBlank(message = "The taskName cannot be empty")
+    @Column(nullable = false, unique = true)
     private String priority;
+
+    @NotBlank(message = "The taskState_id cannot be empty")
+    @Column(nullable = false, unique = true)
     private long state_id;
+
+    @NotBlank(message = "The taskTodo_id cannot be empty")
+    @Column(nullable = false, unique = true)
     private long todo_id;
 
-    @OneToMany(mappedBy = "task")
-    private List<User> users;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private List<State> states;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private List<ToDo> toDos;
 
     public Task() {
+
     }
 
     public long getId() {
@@ -80,35 +91,25 @@ public class Task {
         this.todo_id = todo_id;
     }
 
-    public List<User> getUsers() {
-        return users;
+    public List<State> getStates() {
+        return states;
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
+    public void setStates(List<State> states) {
+        this.states = states;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Task task = (Task) o;
-        return id == task.id &&
-                state_id == task.state_id &&
-                todo_id == task.todo_id &&
-                name.equals(task.name) &&
-                priority.equals(task.priority) &&
-                users.equals(task.users);
+    public List<ToDo> getToDos() {
+        return toDos;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, priority, state_id, todo_id, users);
+    public void setToDos(List<ToDo> toDos) {
+        this.toDos = toDos;
     }
 
     @Override
     public String toString() {
-        return "Role {" +
+        return "Task {" +
                 "id = " + id +
                 ", name = '" + name +
                 ", priority = '" + priority +
@@ -117,4 +118,3 @@ public class Task {
                 "} ";
     }
 }
-
