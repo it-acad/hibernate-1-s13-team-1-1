@@ -1,5 +1,6 @@
 package com.softserve.itacademy.model;
 
+
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -10,6 +11,7 @@ import java.util.List;
 @Entity
 @Table(name = "states")
 public class State {
+
     @Id
     @GeneratedValue(generator = "sequence-generator")
     @GenericGenerator(
@@ -21,21 +23,25 @@ public class State {
                     @Parameter(name = "increment_size", value = "1")
             }
     )
+
     private long id;
 
     @NotBlank(message = "The stateName cannot be empty")
     @Column(nullable = false, unique = true)
-
     private String name;
 
-    @OneToMany(mappedBy = "state")
-    private List<User> users;
+    @OneToMany(mappedBy = "states")
+    private List<Task> tasks;
 
     public State() {
     }
 
     public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -46,20 +52,19 @@ public class State {
         this.name = name;
     }
 
-    public List<User> getUsers() {
-        return users;
+    public List<Task> getTasks() {
+        return tasks;
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
     }
 
     @Override
     public String toString() {
-        return "Role {" +
+        return "State {" +
                 "id = " + id +
                 ", name = '" + name + '\'' +
                 "} ";
     }
 }
-
