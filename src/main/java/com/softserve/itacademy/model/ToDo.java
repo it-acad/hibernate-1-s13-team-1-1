@@ -41,9 +41,29 @@ public class ToDo {
     private List<Task> tasks;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private List<User> users;
+    private User users;
+
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "todos")
+    private Set<User> user;
 
     public ToDo() {
+    }
+
+    public ToDo(long id, @NotBlank(message = "The todoTitle cannot be empty") String title, @NotBlank(message = "The todoOwner_id cannot be empty") long owner_id, List<Task> tasks, User users, Set<User> user) {
+        this.id = id;
+        this.title = title;
+        this.owner_id = owner_id;
+        this.tasks = tasks;
+        this.users = users;
+        this.user = user;
+    }
+
+    public Set<User> getUser() {
+        return user;
+    }
+
+    public void setUser(Set<User> user) {
+        this.user = user;
     }
 
     public long getId() {
@@ -78,11 +98,11 @@ public class ToDo {
         this.tasks = tasks;
     }
 
-    public List<User> getUsers() {
+    public User getUsers() {
         return users;
     }
 
-    public void setUsers(List<User> users) {
+    public void setUsers(User users) {
         this.users = users;
     }
 
@@ -97,5 +117,8 @@ public class ToDo {
 
     public OffsetDateTime getCreated_at() {
         return null;
+    }
+
+    public void setOwner_id(User validUser) {
     }
 }
