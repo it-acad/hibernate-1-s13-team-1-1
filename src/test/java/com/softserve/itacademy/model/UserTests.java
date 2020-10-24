@@ -31,20 +31,20 @@ public class UserTests {
         traineeRole.setName("TRAINEE");
         validUser  = new User();
         validUser.setEmail("valid@cv.edu.ua");
-        validUser.setFirstName("Valid-Name");
-        validUser.setLastName("Valid-Name");
+        validUser.setFirst_name("Valid-Name");
+        validUser.setLast_name("Valid-Name");
         validUser.setPassword("qwQW12!@");
-        validUser.setRole(traineeRole);
+        validUser.setRoles(traineeRole);
     }
 
     @Test
     void userWithValidEmail() {
         User user = new User();
         user.setEmail("rty5@i.ua");
-        user.setFirstName("Valid-Name");
-        user.setLastName("Valid-Name");
+        user.setFirst_name("Valid-Name");
+        user.setLast_name("Valid-Name");
         user.setPassword("qwQW12!@");
-        user.setRole(traineeRole);
+        user.setRoles(traineeRole);
 
 
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
@@ -68,10 +68,10 @@ public class UserTests {
     void constraintViolationInvalid(String input, String errorValue) {
         User user = new User();
         user.setEmail(input);
-        user.setFirstName("Valid-Name");
-        user.setLastName("Valid-Name");
+        user.setFirst_name("Valid-Name");
+        user.setLast_name("Valid-Name");
         user.setPassword("qwQW12!@");
-        user.setRole(traineeRole);
+        user.setRoles(traineeRole);
 
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
@@ -94,10 +94,10 @@ public class UserTests {
     void constraintViolationInvalidFirstName(String input, String errorValue) {
         User user = new User();
         user.setEmail(validUser.getEmail());
-        user.setFirstName(input);
-        user.setLastName("Valid-Name");
+        user.setFirst_name(input);
+        user.setLast_name("Valid-Name");
         user.setPassword("qwQW12!@");
-        user.setRole(traineeRole);
+        user.setRoles(traineeRole);
 
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
