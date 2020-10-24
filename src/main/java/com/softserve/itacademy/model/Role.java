@@ -2,7 +2,6 @@ package com.softserve.itacademy.model;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
@@ -22,16 +21,23 @@ public class Role {
                     @Parameter(name = "increment_size", value = "1")
             }
     )
+    @Column(name = "id", insertable = false, updatable = false)
     private long id;
 
     @NotBlank(message = "The roleName cannot be empty")
-    @Column(nullable = false, unique = true)
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "role")
+    @OneToMany(mappedBy = "role_id", cascade = CascadeType.ALL)
     private List<User> users;
 
     public Role() {
+    }
+
+    public Role(long id, @NotBlank(message = "The roleName cannot be empty") String name, List<User> users) {
+        this.id = id;
+        this.name = name;
+        this.users = users;
     }
 
     public long getId() {
@@ -63,3 +69,4 @@ public class Role {
     }
 
 }
+
