@@ -12,43 +12,44 @@ import java.util.List;
 public class Task {
 
     @Id
-    @GeneratedValue(generator = "sequence-generator")
-    @GenericGenerator(
-            name = "sequence-generator",
-            strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
-            parameters = {
-                    @Parameter(name = "sequence_name", value = "task_sequence"),
-                    @Parameter(name = "initial_value", value = "10"),
-                    @Parameter(name = "increment_size", value = "1")
-            }
-    )
-
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column (name = "id", insertable = false, updatable = false)
     private long id;
 
     @NotBlank(message = "The taskName cannot be empty")
-    @Column(nullable = false, unique = true)
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
 
     @NotBlank(message = "The taskName cannot be empty")
-    @Column(nullable = false, unique = true)
+    @Column(name = "priority", nullable = false, unique = true)
     private String priority;
 
     @NotBlank(message = "The taskState_id cannot be empty")
-    @Column(nullable = false, unique = true)
+    @Column(name = "state_id", nullable = false, unique = true)
     private long state_id;
 
     @NotBlank(message = "The taskTodo_id cannot be empty")
-    @Column(nullable = false, unique = true)
+    @Column(name = "todo_id", nullable = false, unique = true)
     private long todo_id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private List<State> states;
+    private State states;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private List<ToDo> toDos;
+    private ToDo toDos;
 
     public Task() {
 
+    }
+
+    public Task(long id, @NotBlank(message = "The taskName cannot be empty") String name, @NotBlank(message = "The taskName cannot be empty") String priority, @NotBlank(message = "The taskState_id cannot be empty") long state_id, @NotBlank(message = "The taskTodo_id cannot be empty") long todo_id, State states, ToDo toDos) {
+        this.id = id;
+        this.name = name;
+        this.priority = priority;
+        this.state_id = state_id;
+        this.todo_id = todo_id;
+        this.states = states;
+        this.toDos = toDos;
     }
 
     public long getId() {
@@ -91,19 +92,19 @@ public class Task {
         this.todo_id = todo_id;
     }
 
-    public List<State> getStates() {
+    public State getStates() {
         return states;
     }
 
-    public void setStates(List<State> states) {
+    public void setStates(State states) {
         this.states = states;
     }
 
-    public List<ToDo> getToDos() {
+    public ToDo getToDos() {
         return toDos;
     }
 
-    public void setToDos(List<ToDo> toDos) {
+    public void setToDos(ToDo toDos) {
         this.toDos = toDos;
     }
 
