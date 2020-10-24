@@ -13,27 +13,24 @@ import java.util.List;
 public class State {
 
     @Id
-    @GeneratedValue(generator = "sequence-generator")
-    @GenericGenerator(
-            name = "sequence-generator",
-            strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
-            parameters = {
-                    @Parameter(name = "sequence_name", value = "state_sequence"),
-                    @Parameter(name = "initial_value", value = "10"),
-                    @Parameter(name = "increment_size", value = "1")
-            }
-    )
-
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column (name = "id", insertable = false, updatable = false)
     private long id;
 
     @NotBlank(message = "The stateName cannot be empty")
-    @Column(nullable = false, unique = true)
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "states")
+    @OneToMany(mappedBy = "states_id", cascade = CascadeType.ALL)
     private List<Task> tasks;
 
     public State() {
+    }
+
+    public State(long id, @NotBlank(message = "The stateName cannot be empty") String name, List<Task> tasks) {
+        this.id = id;
+        this.name = name;
+        this.tasks = tasks;
     }
 
     public long getId() {
